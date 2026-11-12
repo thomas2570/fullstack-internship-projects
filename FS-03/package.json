@@ -1,0 +1,38 @@
+{
+  "name": "eduflow-lms-monorepo",
+  "version": "1.0.0",
+  "description": "Learning Management System with Live Classes, WebRTC, FFmpeg HLS Transcoding, BullMQ, and CloudFront",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "build": "cd client && npm run build",
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "install:all": "npm run install:server && npm run install:client",
+    "seed": "cd server && npm run seed",
+    "test": "cd server && npm test",
+    "dev": "concurrently \"npm run start:server\" \"npm run start:client\" --names \"SERVER,CLIENT\" --prefix-colors \"blue,green\"",
+    "start:server": "cd server && npm start",
+    "start:client": "cd client && npm run dev",
+    "build:client": "cd client && npm run build"
+  },
+  "keywords": [
+    "lms",
+    "webrtc",
+    "ffmpeg",
+    "bullmq",
+    "hls",
+    "cloudfront",
+    "redux-toolkit",
+    "mern"
+  ],
+  "author": "EduFlow Academic Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^10.0.7"
+  }
+}
