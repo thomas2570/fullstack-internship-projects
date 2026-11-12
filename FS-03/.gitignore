@@ -6,11 +6,9 @@ node_modules/
 
 # Build output
 dist/
-**/dist/
 build/
-**/build/
 
-# Environment files (NEVER commit real credentials)
+# Environment files
 .env
 *.env
 .env.local
@@ -25,20 +23,19 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
-# OS & Editor Files
+# OS Files
 .DS_Store
 Thumbs.db
-.vscode/
-.idea/
 
 # Testing & Coverage
 coverage/
 *.lcov
 
-# User uploads & generated certificates (keep directory structure via .gitkeep)
+# User uploads & generated certificates (preserve structure)
 server/uploads/certificates/*.pdf
 server/uploads/videos/*.mp4
 server/uploads/videos/*.mov
 server/uploads/videos/raw-*
 server/uploads/thumbnails/*.jpg
 server/uploads/thumbnails/*.png
+

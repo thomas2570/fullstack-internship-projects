@@ -56,30 +56,41 @@ export const getAllPayoutRequests = async (req, res, next) => {
 export const updatePayoutStatus = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { status, adminNotes } = req.body; // 'approved' | 'rejected' | 'processed'
+    const { status, adminNotes } = req.body; // 'approved' | 'rejected' | 'processed' | 'pending'
+
+    if (!['pending', 'approved', 'rejected', 'processed'].includes(status)) {
+      return res.status(400).json({ success: false, message: 'Invalid payout status requested.' });
+    }
 
     const payout = await PayoutRequest.findById(id).populate('instructor');
     if (!payout) {
-      return res.status(404).json({ success: false, message: 'Payout request not found' });
+      return res.status(404).json({ success: false, message: 'Payout request not found.' });
     }
 
-    if (payout.status !== 'pending' && status !== 'processed') {
-      return res.status(400).json({ success: false, message: `Cannot change status from ${payout.status}` });
-    }
-
+    const previousStatus = payout.status;
     payout.status = status;
     payout.adminNotes = adminNotes || payout.adminNotes;
+
+    const instructorId = payout.instructor?._id || payout.instructor;
+
     if (status === 'processed' || status === 'approved') {
       payout.processedAt = new Date();
-      // Increase withdrawnAmount on instructor
-      await User.findByIdAndUpdate(payout.instructor._id, {
-        $inc: { 'earnings.withdrawnAmount': payout.amount }
-      });
+      if (instructorId && previousStatus === 'pending') {
+        // Increase withdrawnAmount on instructor
+        await User.findByIdAndUpdate(instructorId, {
+          $inc: { 'earnings.withdrawnAmount': payout.amount }
+        });
+      }
     } else if (status === 'rejected') {
-      // Refund back to pendingBalance
-      await User.findByIdAndUpdate(payout.instructor._id, {
-        $inc: { 'earnings.pendingBalance': payout.amount }
-      });
+      if (instructorId && previousStatus === 'pending') {
+        // Refund back to pendingBalance
+        await User.findByIdAndUpdate(instructorId, {
+          $inc: { 'earnings.pendingBalance': payout.amount }
+        });
+      }
+    } else if (status === 'pending') {
+      // Reverting back to pending
+      payout.processedAt = null;
     }
 
     await payout.save();
@@ -88,6 +99,22 @@ export const updatePayoutStatus = async (req, res, next) => {
       success: true,
       message: `Payout request marked as ${status}.`,
       payout,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deletePayoutRequest = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const payout = await PayoutRequest.findByIdAndDelete(id);
+    if (!payout) {
+      return res.status(404).json({ success: false, message: 'Payout request not found.' });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Payout request deleted successfully.',
     });
   } catch (error) {
     next(error);

@@ -32,10 +32,10 @@ export const TeachPage = () => {
 
         <div className="pt-2 sm:pt-4 flex justify-center gap-4">
           <Link
-            to="/register"
+            to="/register/instructor"
             className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-900/40 transition-all hover:scale-105 flex items-center justify-center gap-2"
           >
-            <span>Start Teaching Today</span>
+            <span>Start Teaching Today (Instructor Sign Up)</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -144,6 +144,30 @@ export const TeachPage = () => {
             <p className="text-xs text-slate-400 leading-relaxed">
               Track revenue in real time on your instructor studio dashboard. Submit one-click payout requests via PayPal or direct bank transfer.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom Final CTA */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-emerald-950/80 via-slate-900 to-teal-950/80 border border-emerald-500/30 text-center space-y-5 shadow-2xl">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400">
+            <DollarSign className="w-6 h-6" />
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            Ready to Begin Teaching and Earning?
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
+            Create your EduFlow Instructor profile now. Upload video curriculum, set your own pricing, host live masterclasses, and retain 70% of gross student earnings.
+          </p>
+          <div className="pt-2">
+            <Link
+              to="/register/instructor"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-950/60 transition-all hover:scale-105"
+            >
+              <span>Create Instructor Account</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

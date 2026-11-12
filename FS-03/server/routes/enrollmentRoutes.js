@@ -4,6 +4,7 @@ import {
   getMyEnrollments,
   getEnrollmentProgress,
   markLessonComplete,
+  completeEntireCourse,
 } from '../controllers/enrollmentController.js';
 import { protect } from '../middleware/auth.js';
 
@@ -15,6 +16,6 @@ router.post('/enroll', enrollInCourse);
 router.get('/my', getMyEnrollments);
 router.get('/progress/:courseId', getEnrollmentProgress);
 router.post('/complete-lesson', markLessonComplete);
+router.post('/complete-course', completeEntireCourse);
 
 export default router;
-

@@ -38,13 +38,20 @@ export const LoginPage = () => {
   const location = useLocation();
   const redirectUrl = new URLSearchParams(location.search).get('redirect');
 
+  const cleanEmailInput = (val) => {
+    if (!val) return '';
+    return val.trim().toLowerCase().replace(/@(gmai|gamil|gmial)\.com$/i, '@gmail.com');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError('');
     dispatch(clearAuthError());
 
+    const cleanEmail = cleanEmailInput(email);
+
     // Basic client validation
-    if (!email.trim()) {
+    if (!cleanEmail) {
       setFormError('Please enter your email address.');
       return;
     }
@@ -53,7 +60,7 @@ export const LoginPage = () => {
       return;
     }
 
-    const res = await dispatch(loginUser({ email: email.trim(), password }));
+    const res = await dispatch(loginUser({ email: cleanEmail, password }));
     if (!res.error) {
       if (redirectUrl) {
         navigate(redirectUrl);
@@ -69,7 +76,8 @@ export const LoginPage = () => {
   const handleResetSubmit = async (e) => {
     e.preventDefault();
     setResetError('');
-    if (!resetEmail.trim()) {
+    const cleanReset = cleanEmailInput(resetEmail);
+    if (!cleanReset) {
       setResetError('Please enter your registered email address.');
       return;
     }
@@ -85,7 +93,7 @@ export const LoginPage = () => {
     try {
       setResetLoading(true);
       await api.post('/auth/reset-password', {
-        email: resetEmail.trim(),
+        email: cleanReset,
         newPassword,
       });
       setResetSuccess(true);
@@ -159,6 +167,7 @@ export const LoginPage = () => {
                   setEmail(e.target.value);
                   if (formError) setFormError('');
                 }}
+                onBlur={() => setEmail((prev) => cleanEmailInput(prev))}
                 placeholder="you@example.com"
                 className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 pl-11 transition-all"
               />
@@ -174,7 +183,10 @@ export const LoginPage = () => {
               </label>
               <button
                 type="button"
-                onClick={() => setForgotPasswordOpen(true)}
+                onClick={() => {
+                  if (email) setResetEmail(cleanEmailInput(email));
+                  setForgotPasswordOpen(true);
+                }}
                 className="text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
               >
                 Forgot password?
@@ -239,14 +251,26 @@ export const LoginPage = () => {
         </form>
 
         {/* Footer Link */}
-        <div className="pt-2 border-t border-slate-800/80 text-center text-xs text-slate-400">
-          Don't have an account yet?{' '}
-          <Link
-            to="/register"
-            className="font-bold text-indigo-400 hover:text-indigo-300 transition-colors ml-1"
-          >
-            Create an account
-          </Link>
+        <div className="pt-3 border-t border-slate-800/80 text-center space-y-2.5">
+          <div className="text-xs text-slate-400">
+            Don't have an account yet? Choose your account type:
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <Link
+              to="/register/student"
+              className="py-2.5 px-3 rounded-xl bg-indigo-950/60 hover:bg-indigo-900/60 border border-indigo-500/40 text-indigo-300 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+            >
+              <span>🎓</span>
+              <span>Student Sign Up</span>
+            </Link>
+            <Link
+              to="/register/instructor"
+              className="py-2.5 px-3 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+            >
+              <span>👨‍🏫</span>
+              <span>Instructor Sign Up</span>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -292,6 +316,7 @@ export const LoginPage = () => {
                     required
                     value={resetEmail}
                     onChange={(e) => setResetEmail(e.target.value)}
+                    onBlur={() => setResetEmail((prev) => cleanEmailInput(prev))}
                     placeholder="name@example.com"
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
                   />

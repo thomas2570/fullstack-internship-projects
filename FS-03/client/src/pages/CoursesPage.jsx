@@ -73,49 +73,90 @@ export const CoursesPage = () => {
         </form>
       </div>
 
-      {/* Filter Pills & Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        {/* Categories (horizontal scrollable on mobile without ugly scrollbar, clean wrap on desktop) */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 sm:flex-wrap">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => handleCategorySelect(cat)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap shrink-0 transition-all ${
-                filters.category === cat
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                  : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Level & Sort Dropdowns */}
-        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2.5 w-full sm:w-auto">
+      {/* Filter Controls */}
+      <div className="space-y-3">
+        {/* Mobile View: Clean Category Dropdown + Level & Sort Grid */}
+        <div className="sm:hidden space-y-2">
           <select
-            value={filters.level}
-            onChange={(e) => handleLevelSelect(e.target.value)}
-            className="w-full sm:w-auto bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-indigo-500 cursor-pointer"
+            value={filters.category}
+            onChange={(e) => handleCategorySelect(e.target.value)}
+            className="w-full bg-slate-900 border border-slate-800 text-xs font-semibold text-white rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-indigo-500 cursor-pointer"
           >
-            {LEVELS.map((lvl) => (
-              <option key={lvl} value={lvl} className="bg-slate-900 text-white">
-                {lvl}
+            {CATEGORIES.map((cat) => (
+              <option key={cat} value={cat} className="bg-slate-900 text-white">
+                {cat === 'All' ? 'All Categories' : cat}
               </option>
             ))}
           </select>
 
-          <select
-            value={filters.sort}
-            onChange={handleSortChange}
-            className="w-full sm:w-auto bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-indigo-500 cursor-pointer"
-          >
-            <option value="popular" className="bg-slate-900 text-white">Most Popular</option>
-            <option value="rating" className="bg-slate-900 text-white">Highest Rated</option>
-            <option value="price_asc" className="bg-slate-900 text-white">Price: Low to High</option>
-            <option value="price_desc" className="bg-slate-900 text-white">Price: High to Low</option>
-          </select>
+          <div className="grid grid-cols-2 gap-2">
+            <select
+              value={filters.level}
+              onChange={(e) => handleLevelSelect(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-indigo-500 cursor-pointer"
+            >
+              {LEVELS.map((lvl) => (
+                <option key={lvl} value={lvl} className="bg-slate-900 text-white">
+                  {lvl}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={filters.sort}
+              onChange={handleSortChange}
+              className="w-full bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-indigo-500 cursor-pointer"
+            >
+              <option value="popular" className="bg-slate-900 text-white">Most Popular</option>
+              <option value="rating" className="bg-slate-900 text-white">Highest Rated</option>
+              <option value="price_asc" className="bg-slate-900 text-white">Price: Low to High</option>
+              <option value="price_desc" className="bg-slate-900 text-white">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Desktop / Tablet View: Pills on left + Level & Sort on right */}
+        <div className="hidden sm:flex sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-2 flex-wrap">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => handleCategorySelect(cat)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+                  filters.category === cat
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                    : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2.5 shrink-0">
+            <select
+              value={filters.level}
+              onChange={(e) => handleLevelSelect(e.target.value)}
+              className="bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-indigo-500 cursor-pointer"
+            >
+              {LEVELS.map((lvl) => (
+                <option key={lvl} value={lvl} className="bg-slate-900 text-white">
+                  {lvl}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={filters.sort}
+              onChange={handleSortChange}
+              className="bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-indigo-500 cursor-pointer"
+            >
+              <option value="popular" className="bg-slate-900 text-white">Most Popular</option>
+              <option value="rating" className="bg-slate-900 text-white">Highest Rated</option>
+              <option value="price_asc" className="bg-slate-900 text-white">Price: Low to High</option>
+              <option value="price_desc" className="bg-slate-900 text-white">Price: High to Low</option>
+            </select>
+          </div>
         </div>
       </div>
 

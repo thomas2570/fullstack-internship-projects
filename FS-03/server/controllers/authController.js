@@ -7,22 +7,34 @@ const generateToken = (id) => {
   });
 };
 
+export const sanitizeEmail = (input) => {
+  if (!input || typeof input !== 'string') return '';
+  let e = input.toLowerCase().trim();
+  // Auto-correct common domain typos (e.g., @gmai.com, @gamil.com, @gmial.com -> @gmail.com)
+  e = e.replace(/@(gmai|gamil|gmial)\.com$/i, '@gmail.com');
+  return e;
+};
+
 export const register = async (req, res, next) => {
   try {
     const { name, email, password, role, headline, bio } = req.body;
+    const cleanEmail = sanitizeEmail(email);
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: cleanEmail });
     if (existingUser) {
       return res.status(400).json({ success: false, message: 'An account with this email already exists.' });
     }
 
+    // Strictly enforce role: only 'instructor' if explicitly chosen, otherwise 'student'
+    const finalRole = role === 'instructor' ? 'instructor' : 'student';
+
     const user = await User.create({
-      name,
-      email,
+      name: name?.trim(),
+      email: cleanEmail,
       password,
-      role: ['student', 'instructor', 'admin'].includes(role) ? role : 'student',
-      headline,
-      bio,
+      role: finalRole,
+      headline: headline?.trim() || (finalRole === 'instructor' ? 'EduFlow Instructor' : 'Passionate Learner'),
+      bio: bio?.trim() || '',
     });
 
     const token = generateToken(user._id);
@@ -54,7 +66,7 @@ export const login = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Please provide email and password.' });
     }
 
-    const cleanEmail = email.toLowerCase().trim();
+    const cleanEmail = sanitizeEmail(email);
     const user = await User.findOne({ email: cleanEmail }).select('+password');
     
     // Check password (and test trimmed version in case of accidental trailing spaces)
@@ -106,13 +118,16 @@ export const getMe = async (req, res, next) => {
 
 export const updateProfile = async (req, res, next) => {
   try {
-    const { name, headline, bio, avatar, payoutInfo } = req.body;
+    const { name, headline, bio, avatar, payoutInfo, role } = req.body;
     const updates = {};
     if (name) updates.name = name;
-    if (headline) updates.headline = headline;
-    if (bio) updates.bio = bio;
+    if (headline !== undefined) updates.headline = headline;
+    if (bio !== undefined) updates.bio = bio;
     if (avatar) updates.avatar = avatar;
     if (payoutInfo) updates.payoutInfo = payoutInfo;
+    if (role && ['student', 'instructor'].includes(role) && req.user.role !== 'admin') {
+      updates.role = role;
+    }
 
     const user = await User.findByIdAndUpdate(req.user._id, updates, { new: true, runValidators: true });
     res.status(200).json({
@@ -136,7 +151,7 @@ export const resetPassword = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'New password must be at least 6 characters long.' });
     }
 
-    const cleanEmail = email.toLowerCase().trim();
+    const cleanEmail = sanitizeEmail(email);
     const user = await User.findOne({ email: cleanEmail });
 
     if (!user) {

@@ -10,8 +10,6 @@
 [![Tests](https://img.shields.io/badge/Jest%20Tests-14%20Passed%20(100%25)-brightgreen.svg)](#test-results)
 
 > **A full-featured online academy**: video lessons, live virtual classrooms, auto-graded quizzes, cryptographic completion certificates, and instructor earnings dashboards with test payment processing.
->
-> 📁 **Monorepo Directory**: `FS-03` | Part of [fullstack-internship-projects](https://github.com/thomas2570/fullstack-internship-projects)
 
 ---
 

@@ -83,6 +83,40 @@ export const LearnPage = () => {
     }
   };
 
+  const handleCompleteCourse = async () => {
+    if (!course) return;
+    try {
+      const res = await api.post('/enrollments/complete-course', {
+        courseId: course._id,
+      });
+      if (res.data?.enrollment) {
+        dispatch(updateEnrollmentProgress(res.data.enrollment));
+        if (lessons) {
+          setCompletedLessonIds(new Set(lessons.map((l) => l._id)));
+        }
+      }
+      if (res.data?.certificate) {
+        setEarnedCertificate(res.data.certificate);
+        setCertificateModalOpen(true);
+        confetti({
+          particleCount: 160,
+          spread: 90,
+          origin: { y: 0.5 },
+        });
+      }
+    } catch (err) {
+      console.error('Failed to complete course:', err);
+    }
+  };
+
+  const handleOpenCertificate = async () => {
+    if (earnedCertificate) {
+      setCertificateModalOpen(true);
+      return;
+    }
+    await handleCompleteCourse();
+  };
+
   const handleQuizDone = ({ passed, enrollment, certificate }) => {
     if (passed && currentLesson) {
       const newCompleted = new Set(completedLessonIds);
@@ -133,15 +167,25 @@ export const LearnPage = () => {
             </div>
           </div>
 
-          {/* Certificate Trigger Button if earned */}
-          {(earnedCertificate || progressPct === 100) && (
+          {/* Certificate Trigger Button */}
+          {earnedCertificate || progressPct === 100 ? (
             <button
-              onClick={() => setCertificateModalOpen(true)}
-              className="px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 text-xs font-bold flex items-center gap-1.5 sm:gap-2 transition-all shadow-lg shadow-emerald-950/40 animate-pulse shrink-0"
+              onClick={handleOpenCertificate}
+              className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 sm:gap-2 transition-all shadow-lg shadow-emerald-950/40 hover:scale-105 shrink-0 cursor-pointer"
+            >
+              <Award className="w-4 h-4 text-white" />
+              <span className="hidden sm:inline">View Course Certificate</span>
+              <span className="sm:hidden">Certificate</span>
+            </button>
+          ) : (
+            <button
+              onClick={handleCompleteCourse}
+              className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 text-xs font-semibold flex items-center gap-1.5 transition-all shrink-0 cursor-pointer"
+              title="Finish all lessons and claim this course's certificate"
             >
               <Award className="w-4 h-4" />
-              <span className="hidden sm:inline">View Certificate</span>
-              <span className="sm:hidden">Certificate</span>
+              <span className="hidden sm:inline">Complete & Get Certificate</span>
+              <span className="sm:hidden">Get Cert</span>
             </button>
           )}
         </div>
@@ -175,10 +219,10 @@ export const LearnPage = () => {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2.5">
                   <button
                     onClick={handleMarkComplete}
-                    className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                    className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
                       isCurrentCompleted
                         ? 'bg-emerald-950/70 border border-emerald-700/60 text-emerald-300'
                         : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30 hover:scale-105'
@@ -187,6 +231,16 @@ export const LearnPage = () => {
                     <CheckCircle className="w-4 h-4" />
                     <span>{isCurrentCompleted ? 'Completed ✓' : 'Mark Lesson Complete'}</span>
                   </button>
+
+                  {progressPct < 100 && (
+                    <button
+                      onClick={handleCompleteCourse}
+                      className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-950/40 transition-all hover:scale-105 cursor-pointer"
+                    >
+                      <Award className="w-4 h-4" />
+                      <span>Complete Entire Course & Get Certificate</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

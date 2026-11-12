@@ -5,6 +5,7 @@ import { fetchCurrentUser } from './features/authSlice';
 
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { ScrollToTop } from './components/ScrollToTop';
 
 // Pages
 import { HomePage } from './pages/HomePage';
@@ -54,14 +55,15 @@ export const App = () => {
   // Hide large footer on auth screens, video learning player, and live classroom rooms
   const hideFooter =
     location.pathname === '/login' ||
-    location.pathname === '/register' ||
+    location.pathname.startsWith('/register') ||
     location.pathname.endsWith('/learn') ||
     (location.pathname.startsWith('/live/') && location.pathname !== '/live');
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+      <ScrollToTop />
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 min-h-[calc(100vh-4rem)]">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/courses" element={<CoursesPage />} />
@@ -110,6 +112,8 @@ export const App = () => {
           <Route path="/teach" element={<TeachPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/register/student" element={<RegisterPage />} />
+          <Route path="/register/instructor" element={<RegisterPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

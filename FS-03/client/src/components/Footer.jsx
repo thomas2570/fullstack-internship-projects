@@ -46,12 +46,18 @@ export const Footer = () => {
 
             {/* Trust Badges */}
             <div className="flex flex-wrap gap-2 pt-1">
-              <span className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-indigo-950/80 text-indigo-300 border border-indigo-800/40 flex items-center gap-1">
+              <Link
+                to="/verify-certificate/EDF-2026-A88090EE"
+                className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-indigo-950/80 text-indigo-300 border border-indigo-800/40 flex items-center gap-1 hover:border-indigo-600 transition-colors"
+              >
                 <Award className="w-3 h-3 text-indigo-400" /> Verified Credentials
-              </span>
-              <span className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-rose-950/80 text-rose-300 border border-rose-800/40 flex items-center gap-1">
+              </Link>
+              <Link
+                to="/live"
+                className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-rose-950/80 text-rose-300 border border-rose-800/40 flex items-center gap-1 hover:border-rose-600 transition-colors"
+              >
                 <Video className="w-3 h-3 text-rose-400" /> Live Masterclasses
-              </span>
+              </Link>
             </div>
           </div>
 
@@ -99,6 +105,16 @@ export const Footer = () => {
               <li>
                 <Link to="/teach" className="hover:text-emerald-400 transition-colors font-semibold flex items-center gap-1">
                   <span>Teach on EduFlow (70% Share)</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/register/instructor" className="hover:text-emerald-400 transition-colors flex items-center gap-1 text-slate-400">
+                  <span>Instructor Registration</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/register/student" className="hover:text-indigo-400 transition-colors flex items-center gap-1 text-slate-400">
+                  <span>Student Registration</span>
                 </Link>
               </li>
               <li>

@@ -633,10 +633,16 @@ export const HomePage = () => {
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2 relative">
             <Link
-              to="/register"
+              to="/register/student"
               className="px-8 py-3.5 rounded-xl bg-white text-indigo-900 font-extrabold text-sm shadow-xl hover:bg-indigo-50 transition-all hover:scale-105"
             >
-              Get Started for Free
+              Get Started as Student
+            </Link>
+            <Link
+              to="/teach"
+              className="px-8 py-3.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-200 font-extrabold text-sm transition-all"
+            >
+              Teach on EduFlow
             </Link>
             <Link
               to="/courses"
