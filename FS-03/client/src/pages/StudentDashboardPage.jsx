@@ -21,7 +21,11 @@ import {
 export const StudentDashboardPage = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { enrollments, loading } = useSelector((state) => state.courses);
+  const rawEnrollments = useSelector(
+    (state) => state.courses?.myEnrollments || state.courses?.enrollments || []
+  );
+  const loading = useSelector((state) => state.courses?.loading || false);
+  const enrollments = Array.isArray(rawEnrollments) ? rawEnrollments : [];
 
   const [certificates, setCertificates] = useState([]);
   const [selectedCert, setSelectedCert] = useState(null);
@@ -31,8 +35,11 @@ export const StudentDashboardPage = () => {
     dispatch(fetchMyEnrollments());
     api
       .get('/certificates/my')
-      .then((res) => setCertificates(res.data.certificates || []))
-      .catch((err) => console.warn(err));
+      .then((res) => setCertificates(Array.isArray(res.data?.certificates) ? res.data.certificates : []))
+      .catch((err) => {
+        console.warn('Failed to load certificates:', err);
+        setCertificates([]);
+      });
   };
 
   useEffect(() => {
@@ -40,14 +47,16 @@ export const StudentDashboardPage = () => {
   }, [dispatch]);
 
   const handleOpenCertificate = async (enr) => {
-    if (enr.certificate) {
+    if (enr?.certificate) {
       setSelectedCert(enr.certificate);
       setCertModalOpen(true);
       return;
     }
     try {
+      const courseId = enr?.course?._id || enr?.course;
+      if (!courseId) return;
       const res = await api.post('/enrollments/complete-course', {
-        courseId: enr.course._id,
+        courseId,
       });
       if (res.data?.certificate) {
         setSelectedCert(res.data.certificate);
@@ -60,6 +69,7 @@ export const StudentDashboardPage = () => {
   };
 
   const handleQuickComplete = async (courseId) => {
+    if (!courseId) return;
     try {
       const res = await api.post('/enrollments/complete-course', { courseId });
       if (res.data?.certificate) {
@@ -73,7 +83,7 @@ export const StudentDashboardPage = () => {
   };
 
   const completedCount = enrollments.filter(
-    (e) => e.isCompleted || e.progressPercentage === 100
+    (e) => e && (e.isCompleted || e.progressPercentage === 100)
   ).length;
 
   return (
@@ -277,16 +287,16 @@ export const StudentDashboardPage = () => {
                       ID: {cert.certificateId}
                     </span>
                     <span className="text-[11px] text-slate-400">
-                      Issued: {new Date(cert.issueDate).toLocaleDateString()}
+                      Issued: {cert.issueDate ? new Date(cert.issueDate).toLocaleDateString() : 'Recent'}
                     </span>
                   </div>
 
                   <h3 className="font-bold text-white text-base truncate">
-                    {cert.courseTitle}
+                    {cert.courseTitle || 'Masterclass Credential'}
                   </h3>
 
                   <div className="text-xs text-slate-400">
-                    Instructor: {cert.instructorName}
+                    Instructor: {cert.instructorName || 'Lead Instructor'}
                   </div>
                 </div>
 

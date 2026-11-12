@@ -52,6 +52,7 @@ const courseSlice = createSlice({
     isEnrolled: false,
     activeEnrollment: null,
     myEnrollments: [],
+    enrollments: [],
     loading: false,
     error: null,
     filters: {
@@ -110,7 +111,9 @@ const courseSlice = createSlice({
       })
       // My Enrollments
       .addCase(fetchMyEnrollments.fulfilled, (state, action) => {
-        state.myEnrollments = action.payload;
+        const list = Array.isArray(action.payload) ? action.payload : [];
+        state.myEnrollments = list;
+        state.enrollments = list;
       });
   },
 });
