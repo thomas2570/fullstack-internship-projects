@@ -11,7 +11,8 @@ export const setWorkerSocketIO = (io) => {
 };
 
 // Process video transcoding background jobs
-videoTranscodeQueue.process(async (job) => {
+if (videoTranscodeQueue) {
+  videoTranscodeQueue.process(async (job) => {
   const { lessonId, courseId, inputFilePath, outputDir, relativeHlsDir } = job.data;
   console.log(`[Worker] Started transcoding job for Lesson: ${lessonId}`);
 
@@ -102,4 +103,5 @@ videoTranscodeQueue.process(async (job) => {
     throw err;
   }
 });
+}
 

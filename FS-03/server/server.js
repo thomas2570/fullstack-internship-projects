@@ -42,9 +42,11 @@ const io = new SocketIOServer(server, {
   },
 });
 
-// Pass IO instance to services & workers
-setupSocketServer(io);
-setWorkerSocketIO(io);
+// Pass IO instance to services & workers (only in persistent node server)
+if (!process.env.VERCEL) {
+  setupSocketServer(io);
+  setWorkerSocketIO(io);
+}
 
 // Middleware
 app.use(helmet({
@@ -89,7 +91,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// API Routes
+// API Routes (mounted both with /api and direct root for Vercel Serverless compatibility)
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/lessons', lessonRoutes);
@@ -100,6 +102,18 @@ app.use('/api/certificates', certificateRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/instructor', instructorRoutes);
 app.use('/api/admin', adminRoutes);
+
+// Serverless fallback mounts without /api prefix
+app.use('/auth', authRoutes);
+app.use('/courses', courseRoutes);
+app.use('/lessons', lessonRoutes);
+app.use('/quizzes', quizRoutes);
+app.use('/enrollments', enrollmentRoutes);
+app.use('/live', liveRoutes);
+app.use('/certificates', certificateRoutes);
+app.use('/payments', paymentRoutes);
+app.use('/instructor', instructorRoutes);
+app.use('/admin', adminRoutes);
 
 // Error Handling Middleware
 app.use(errorHandler);

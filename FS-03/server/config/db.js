@@ -21,8 +21,12 @@ export const connectDB = async () => {
   }
 
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/eduflow_lms', {
-      serverSelectionTimeoutMS: 5000,
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      throw new Error('MONGO_URI environment variable is not defined.');
+    }
+    const conn = await mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 8000,
     });
     cachedConnection = conn;
     console.log(`[Database] MongoDB Connected: ${conn.connection.host}/${conn.connection.name}`);

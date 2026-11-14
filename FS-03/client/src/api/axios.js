@@ -23,9 +23,15 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor to handle session expirations
+// Response interceptor to handle session expirations & unexpected HTML responses
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // If an API endpoint returned HTML instead of JSON, reject it gracefully
+    if (typeof response.data === 'string' && response.data.trim().startsWith('<!')) {
+      return Promise.reject(new Error('Received HTML response from server instead of JSON API data.'));
+    }
+    return response;
+  },
   (error) => {
     // Only treat as session expiration if not an explicit login attempt
     const isLoginEndpoint = error.config?.url?.includes('/auth/login');
