@@ -29,9 +29,10 @@ import { TeachPage } from './pages/TeachPage';
 // Protected Route wrappers
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, token } = useSelector((state) => state.auth);
+  const location = useLocation();
 
   if (!token && !user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} state={{ from: location }} replace />;
   }
 
   if (allowedRoles && !allowedRoles.includes(user?.role)) {
@@ -77,7 +78,14 @@ export const App = () => {
             }
           />
           <Route path="/live" element={<LiveSessionsPage />} />
-          <Route path="/live/:roomId" element={<LiveRoomPage />} />
+          <Route
+            path="/live/:roomId"
+            element={
+              <ProtectedRoute>
+                <LiveRoomPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/dashboard"
             element={

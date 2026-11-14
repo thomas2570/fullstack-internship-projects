@@ -87,11 +87,10 @@ export const LiveSessionsPage = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 ${
-                        isLiveNow
+                      className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 ${isLiveNow
                           ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40 animate-pulse'
                           : 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/40'
-                      }`}
+                        }`}
                     >
                       {isLiveNow ? (
                         <>
@@ -148,12 +147,11 @@ export const LiveSessionsPage = () => {
                   </div>
 
                   <Link
-                    to={`/live/${session.roomId}`}
-                    className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
-                      isLiveNow
+                    to={user ? `/live/${session.roomId}` : `/login?redirect=${encodeURIComponent(`/live/${session.roomId}`)}`}
+                    className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${isLiveNow
                         ? 'bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-900/40 hover:scale-105'
                         : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30'
-                    }`}
+                      }`}
                   >
                     <Video className="w-4 h-4" />
                     <span>{isLiveNow ? 'Enter Live Room' : 'Join Early / Test Media'}</span>

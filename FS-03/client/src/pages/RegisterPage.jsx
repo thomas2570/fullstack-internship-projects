@@ -23,6 +23,7 @@ export const RegisterPage = () => {
   const { loading, error } = useSelector((state) => state.auth);
 
   const queryRole = new URLSearchParams(location.search).get('role');
+  const redirectUrl = new URLSearchParams(location.search).get('redirect') || location.state?.from?.pathname;
 
   // Determine initial role from pathname or query param
   const getInitialRole = () => {
@@ -97,7 +98,9 @@ export const RegisterPage = () => {
     );
 
     if (!res.error) {
-      if (role === 'instructor') {
+      if (redirectUrl) {
+        navigate(redirectUrl);
+      } else if (role === 'instructor') {
         navigate('/instructor/dashboard');
       } else {
         navigate('/dashboard');
@@ -336,38 +339,11 @@ export const RegisterPage = () => {
           </button>
         </form>
 
-        {/* Role toggle helper link */}
-        <div className="pt-2 text-center text-xs text-slate-400">
-          {role === 'instructor' ? (
-            <span>
-              Want to learn instead?{' '}
-              <button
-                type="button"
-                onClick={() => handleRoleChange('student')}
-                className="font-bold text-indigo-400 hover:text-indigo-300 underline transition-colors cursor-pointer"
-              >
-                Register as Student
-              </button>
-            </span>
-          ) : (
-            <span>
-              Want to teach instead?{' '}
-              <button
-                type="button"
-                onClick={() => handleRoleChange('instructor')}
-                className="font-bold text-emerald-400 hover:text-emerald-300 underline transition-colors cursor-pointer"
-              >
-                Register as Instructor
-              </button>
-            </span>
-          )}
-        </div>
-
         {/* Existing login link */}
         <div className="pt-2 border-t border-slate-800/80 text-center text-xs text-slate-400">
           Already have an account?{' '}
           <Link
-            to="/login"
+            to={redirectUrl ? `/login?redirect=${encodeURIComponent(redirectUrl)}` : '/login'}
             className="font-bold text-indigo-400 hover:text-indigo-300 transition-colors ml-1"
           >
             Sign in

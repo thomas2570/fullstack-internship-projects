@@ -639,12 +639,6 @@ export const HomePage = () => {
               Get Started as Student
             </Link>
             <Link
-              to="/teach"
-              className="px-8 py-3.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-200 font-extrabold text-sm transition-all"
-            >
-              Teach on EduFlow
-            </Link>
-            <Link
               to="/courses"
               className="px-8 py-3.5 rounded-xl bg-indigo-950/60 hover:bg-indigo-950/80 border border-white/20 text-white font-extrabold text-sm transition-all"
             >

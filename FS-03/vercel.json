@@ -2,23 +2,17 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "client/dist",
-  "functions": {
-    "api/index.js": {
-      "includeFiles": "server/**",
-      "maxDuration": 30
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api"
+      "destination": "https://eduflow-lms-backend-c7m7.onrender.com/api/$1"
     },
     {
       "source": "/uploads/(.*)",
-      "destination": "/api"
+      "destination": "https://eduflow-lms-backend-c7m7.onrender.com/uploads/$1"
     },
     {
-      "source": "/((?!api|uploads).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]

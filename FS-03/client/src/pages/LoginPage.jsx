@@ -36,7 +36,7 @@ export const LoginPage = () => {
   const { loading, error } = useSelector((state) => state.auth);
 
   const location = useLocation();
-  const redirectUrl = new URLSearchParams(location.search).get('redirect');
+  const redirectUrl = new URLSearchParams(location.search).get('redirect') || location.state?.from?.pathname;
 
   const cleanEmailInput = (val) => {
     if (!val) return '';
@@ -257,14 +257,14 @@ export const LoginPage = () => {
           </div>
           <div className="grid grid-cols-2 gap-2">
             <Link
-              to="/register/student"
+              to={redirectUrl ? `/register/student?redirect=${encodeURIComponent(redirectUrl)}` : '/register/student'}
               className="py-2.5 px-3 rounded-xl bg-indigo-950/60 hover:bg-indigo-900/60 border border-indigo-500/40 text-indigo-300 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
             >
               <span>🎓</span>
               <span>Student Sign Up</span>
             </Link>
             <Link
-              to="/register/instructor"
+              to={redirectUrl ? `/register/instructor?redirect=${encodeURIComponent(redirectUrl)}` : '/register/instructor'}
               className="py-2.5 px-3 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
             >
               <span>👨‍🏫</span>

@@ -49,6 +49,7 @@ const courseSlice = createSlice({
     items: [],
     activeCourse: null,
     activeLessons: [],
+    activeReviews: [],
     isEnrolled: false,
     activeEnrollment: null,
     myEnrollments: [],
@@ -102,6 +103,7 @@ const courseSlice = createSlice({
         state.loading = false;
         state.activeCourse = action.payload.course;
         state.activeLessons = action.payload.lessons;
+        state.activeReviews = action.payload.reviews || [];
         state.isEnrolled = action.payload.isEnrolled;
         state.activeEnrollment = action.payload.enrollment;
       })

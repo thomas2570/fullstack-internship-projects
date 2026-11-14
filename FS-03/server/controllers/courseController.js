@@ -1,6 +1,7 @@
 import { Course } from '../models/Course.js';
 import { Lesson } from '../models/Lesson.js';
 import { Enrollment } from '../models/Enrollment.js';
+import { Review } from '../models/Review.js';
 
 export const getAllCourses = async (req, res, next) => {
   try {
@@ -63,6 +64,11 @@ export const getCourseBySlugOrId = async (req, res, next) => {
       .select('-video.rawFilePath')
       .sort({ order: 1 });
 
+    // Retrieve reviews for this course
+    const reviews = await Review.find({ course: course._id })
+      .populate('student', 'name avatar role')
+      .sort({ createdAt: -1 });
+
     // Check if current requesting user is enrolled
     let isEnrolled = false;
     let enrollment = null;
@@ -77,6 +83,7 @@ export const getCourseBySlugOrId = async (req, res, next) => {
       lessons,
       isEnrolled,
       enrollment,
+      reviews,
     });
   } catch (error) {
     next(error);
@@ -164,6 +171,76 @@ export const deleteCourse = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: 'Course and related lessons deleted successfully.',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getCourseReviews = async (req, res, next) => {
+  try {
+    const { courseId } = req.params;
+    const isObjectId = courseId.match(/^[0-9a-fA-F]{24}$/);
+    const course = isObjectId ? await Course.findById(courseId) : await Course.findOne({ slug: courseId });
+    if (!course) {
+      return res.status(404).json({ success: false, message: 'Course not found' });
+    }
+
+    const reviews = await Review.find({ course: course._id })
+      .populate('student', 'name avatar role')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: reviews.length,
+      reviews,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const addCourseReview = async (req, res, next) => {
+  try {
+    const { courseId } = req.params;
+    const { rating, comment } = req.body;
+
+    const numRating = Number(rating);
+    if (!numRating || numRating < 1 || numRating > 5) {
+      return res.status(400).json({ success: false, message: 'Please provide a star rating between 1 and 5.' });
+    }
+    if (!comment || !comment.trim()) {
+      return res.status(400).json({ success: false, message: 'Please write a review comment.' });
+    }
+
+    const isObjectId = courseId.match(/^[0-9a-fA-F]{24}$/);
+    const course = isObjectId ? await Course.findById(courseId) : await Course.findOne({ slug: courseId });
+    if (!course) {
+      return res.status(404).json({ success: false, message: 'Course not found.' });
+    }
+
+    // Upsert review (one review per user per course)
+    const review = await Review.findOneAndUpdate(
+      { course: course._id, student: req.user._id },
+      { rating: numRating, comment: comment.trim() },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    ).populate('student', 'name avatar role');
+
+    // Recalculate average rating & review count for this specific course
+    const allReviews = await Review.find({ course: course._id });
+    const totalRating = allReviews.reduce((sum, r) => sum + r.rating, 0);
+    const avgRating = Math.round((totalRating / allReviews.length) * 10) / 10;
+
+    course.averageRating = avgRating;
+    course.reviewCount = allReviews.length;
+    await course.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Review saved successfully!',
+      review,
+      averageRating: avgRating,
+      reviewCount: allReviews.length,
     });
   } catch (error) {
     next(error);
