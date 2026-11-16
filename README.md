@@ -13,10 +13,6 @@ fullstack-internship-projects/
 ├── .gitignore                      # Global gitignore protecting all subdirectories
 ├── README.md                       # Monorepo architecture & multi-project deployment guide
 │
-├── FS-01/                          # [Reserved for Fullstack Project 01]
-│
-├── FS-02/                          # [Reserved for Fullstack Project 02]
-│
 ├── FS-03/                          # EduFlow Live LMS (Enterprise Learning Management System)
 │   ├── client/                     # React 18 + Vite + Tailwind CSS + Redux Toolkit
 │   ├── server/                     # Node.js + Express + MongoDB + Socket.IO + Redis
@@ -47,8 +43,6 @@ fullstack-internship-projects/
 
 | Subdirectory | Project Name | Tech Stack | Status | Documentation |
 | :--- | :--- | :--- | :--- | :--- |
-| **`FS-01`** | *Fullstack Project 1* | TBD | In Progress | - |
-| **`FS-02`** | *Fullstack Project 2* | TBD | In Progress | - |
 | **`FS-03`** | **EduFlow Live — Enterprise LMS** | React 18, Node.js, Express, MongoDB, WebRTC, FFmpeg HLS, BullMQ, Redis, PDFKit | **Production Ready** | [FS-03 README](./FS-03/README.md) |
 | **`FS-04`** | **AgilePlatform — Multi-Tenant SaaS PM Platform** | React 18, Django 5.1, DRF, PostgreSQL, Celery, Redis, Stripe, Tailwind CSS | **Production Ready** | [FS-04 README](./FS-04/README.md) |
 
@@ -138,15 +132,15 @@ To keep the repository clean, professional, and secure for evaluators:
 1. **No Sensitive Data**: `.env` files containing live credentials, passwords, or tokens are **strictly gitignored**. Only `.env.example` templates are tracked.
 2. **No Build Artifacts**: `node_modules`, `dist/`, and `build/` folders are never committed.
 3. **No Junk / Temporary Uploads**: Test certificates (`*.pdf`) and large video dumps are excluded; folder structures are preserved with `.gitkeep`.
-4. **Self-Contained Subdirectories**: Any future project added (e.g. `FS-01`, `FS-02`) should maintain its own independent `.env.example` and package definitions.
+4. **Self-Contained Subdirectories**: Each project (`FS-03`, `FS-04`) maintains its own independent `.env.example`, package definitions, and isolated deployment workflows.
 
 ---
 
-## ⚡ Quick Start: Running FS-03 Locally
+## ⚡ Quick Start: Running Projects Locally
 
+### A. Running FS-03 (EduFlow Live LMS)
 ```bash
-# 1. Clone repository
-git clone https://github.com/thomas2570/fullstack-internship-projects.git
+# 1. Navigate to FS-03
 cd fullstack-internship-projects/FS-03
 
 # 2. Install dependencies (server + client)
@@ -156,15 +150,26 @@ npm run install:all
 cp server/.env.example server/.env
 # Edit server/.env with your MONGO_URI and JWT_SECRET
 
-# 4. Seed database with genuine demo courses & admin account
+# 4. Seed database with demo courses & admin account
 npm run seed
 
 # 5. Start both Backend & Frontend concurrently
 npm run dev
 ```
-
 - **Frontend**: `http://localhost:5173`
 - **Backend API**: `http://localhost:5000`
+
+### B. Running FS-04 (AgilePlatform SaaS)
+```bash
+# 1. Navigate to FS-04
+cd fullstack-internship-projects/FS-04
+
+# 2. Start full 6-service Docker stack (PostgreSQL, Redis, Celery, Django, React)
+docker compose up -d --build
+```
+- **Frontend App**: `http://localhost:3000`
+- **Backend API & Swagger**: `http://localhost:8000/api/docs/`
+- **Database Adminer**: `http://localhost:8080`
 
 ---
 
