@@ -1,0 +1,31 @@
+{
+  "name": "agileplatform-monorepo",
+  "version": "1.0.0",
+  "description": "Multi-Tenant SaaS Project Management Platform (Enterprise Jira Clone)",
+  "private": true,
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "install:frontend": "cd frontend && npm install",
+    "dev:frontend": "cd frontend && npm run dev",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:build": "docker compose build",
+    "test:backend": "cd backend && python manage.py test",
+    "seed": "cd backend && python manage.py seed_jira_data"
+  },
+  "keywords": [
+    "saas",
+    "jira-clone",
+    "multi-tenant",
+    "django",
+    "react",
+    "celery",
+    "redis",
+    "postgresql",
+    "kanban",
+    "webhooks",
+    "stripe"
+  ],
+  "author": "thomas2570",
+  "license": "MIT"
+}

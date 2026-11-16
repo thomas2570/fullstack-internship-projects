@@ -54,3 +54,21 @@ coverage/
 **/uploads/videos/raw-*
 **/uploads/thumbnails/*.jpg
 **/uploads/thumbnails/*.png
+
+# Python & Django (FS-04)
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+*.db
+backend_venv/
+**/backend_venv/
+.venv/
+**/.venv/
+env/
+venv/
+staticfiles/
+**/staticfiles/
+celerybeat-schedule*
+celerybeat.pid
