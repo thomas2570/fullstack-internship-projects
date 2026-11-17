@@ -101,18 +101,18 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 DB_ENGINE = os.getenv('DB_ENGINE', 'postgres' if DATABASE_URL else 'sqlite')
 
 if DATABASE_URL:
-    db_clean_url = DATABASE_URL
+    db_clean_url = DATABASE_URL.strip().strip("'\"")
     if db_clean_url.startswith('postgres://'):
         db_clean_url = db_clean_url.replace('postgres://', 'postgresql://', 1)
     parsed_db = urllib.parse.urlparse(db_clean_url)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': parsed_db.path.lstrip('/'),
-            'USER': parsed_db.username,
-            'PASSWORD': parsed_db.password,
-            'HOST': parsed_db.hostname,
-            'PORT': parsed_db.port or '5432',
+            'NAME': urllib.parse.unquote(parsed_db.path.lstrip('/')),
+            'USER': urllib.parse.unquote(parsed_db.username or os.getenv('DB_USER', 'postgres')),
+            'PASSWORD': urllib.parse.unquote(parsed_db.password or os.getenv('DB_PASSWORD', '')),
+            'HOST': parsed_db.hostname or os.getenv('DB_HOST', 'localhost'),
+            'PORT': parsed_db.port or os.getenv('DB_PORT', '5432'),
         }
     }
 elif DB_ENGINE == 'postgres':
