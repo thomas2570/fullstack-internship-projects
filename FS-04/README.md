@@ -196,20 +196,23 @@ All API endpoints are documented with live interactive execution at **`/api/docs
 | Area | HTTP Method | Endpoint | Description |
 |---|---|---|---|
 | **Auth** | `POST` | `/api/auth/register/` | Register a new user & auto-provision workspace |
-| **Auth** | `POST` | `/api/auth/token/` | Obtain JWT access and refresh token pair |
-| **Auth** | `POST` | `/api/auth/token/refresh/` | Refresh expired access token |
+| **Auth** | `POST` | `/api/auth/login/` | Obtain JWT access and refresh token pair |
+| **Auth** | `POST` | `/api/auth/refresh/` | Refresh expired access token |
+| **Auth** | `GET` | `/api/auth/me/` | Retrieve current authenticated user profile |
 | **Workspaces** | `GET`, `POST` | `/api/workspaces/` | List user workspaces or create a new workspace |
+| **Workspaces** | `GET` | `/api/workspaces/stats/` | Workspace overview statistics & metrics |
 | **Workspaces** | `GET`, `PATCH` | `/api/workspaces/{id}/` | Retrieve or update workspace configuration |
-| **Members** | `GET`, `POST` | `/api/workspaces/{id}/members/` | List team members or manage member roles |
-| **Invitations**| `POST` | `/api/invitations/` | Send email invitation with role assignment |
-| **Invitations**| `GET`, `POST` | `/api/invitations/accept/{token}/`| Validate and accept team invitation |
+| **Members** | `GET` | `/api/workspaces/members/` | List team members & roles in current workspace |
+| **Invitations**| `POST` | `/api/workspaces/invite/` | Send email invitation with role assignment |
+| **Invitations**| `GET` | `/api/workspaces/invitations/` | List all pending invitations |
+| **Invitations**| `POST` | `/api/workspaces/invitations/{token}/accept/`| Accept team invitation & join workspace |
 | **Projects** | `GET`, `POST` | `/api/projects/` | List or create projects inside current workspace |
 | **Boards** | `GET`, `POST` | `/api/boards/` | List Kanban boards and column workflow definitions |
 | **Issues** | `GET`, `POST` | `/api/issues/` | Filter issues by project, sprint, status, assignee |
 | **Issues** | `PATCH` | `/api/issues/{id}/` | Update status, reorder position, edit story points |
 | **Sprints** | `GET`, `POST` | `/api/sprints/` | Manage sprint planning and lifecycle status |
 | **Burndown** | `GET` | `/api/sprints/{id}/burndown/` | Calculate daily remaining story points vs ideal |
-| **Audit Logs** | `GET` | `/api/audit-logs/` | Query immutable tenant audit trails (Admin only) |
+| **Audit Logs** | `GET` | `/api/audit/` | Query immutable tenant audit trails (Admin only) |
 | **Webhooks** | `GET`, `POST` | `/api/webhooks/` | Register outbound webhook endpoint with secret |
 | **Webhooks** | `POST` | `/api/webhooks/{id}/test_ping/`| Trigger manual diagnostic HMAC webhook delivery |
 | **Billing** | `GET` | `/api/billing/plans/` | List available subscription plans & pricing |
