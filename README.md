@@ -1,7 +1,8 @@
 # 🚀 Fullstack Internship Projects Monorepo
 
 [![Monorepo](https://img.shields.io/badge/Monorepo-FS--03%20%7C%20FS--04-blue.svg?style=for-the-badge)](https://github.com/thomas2570/fullstack-internship-projects)
-[![Live FS-04 App](https://img.shields.io/badge/Official%20App-agileplatform--snowy.vercel.app-brightgreen?style=for-the-badge&logo=vercel)](https://agileplatform-snowy.vercel.app/)
+[![Live FS-04 App](https://img.shields.io/badge/FS--04%20Live-agileplatform--snowy.vercel.app-brightgreen?style=for-the-badge&logo=vercel)](https://agileplatform-snowy.vercel.app/)
+[![Live FS-03 App](https://img.shields.io/badge/FS--03%20Live-eduflowacademy.vercel.app-6366f1?style=for-the-badge&logo=vercel)](https://eduflowacademy.vercel.app/)
 [![Architecture](https://img.shields.io/badge/Architecture-Modular%20Micro--Monorepo-orange?style=for-the-badge)](./FS-04/docs/ARCHITECTURE.md)
 
 Welcome to the **Fullstack Internship Projects** monorepo maintained by **Thomas Ramesh** ([@thomas2570](https://github.com/thomas2570)). This repository houses independent, enterprise-grade fullstack systems organized into strictly isolated subdirectories.
@@ -10,12 +11,14 @@ Each project is designed to be **completely modular, self-contained, and indepen
 
 ---
 
-## 🌟 Projects Showcase
+## 🌐 Official Live Production Websites
 
-| Project | Subdirectory | Tech Stack | Production Status | Official Live Website |
+Both flagship applications are deployed and fully functional in production:
+
+| Project | Subdirectory | Domain / Category | Live Production URL | Documentation |
 |---|---|---|---|---|
-| **AgilePlatform** *(Multi-Tenant SaaS PM Platform & Jira Suite)* | [`FS-04`](./FS-04/) | React 18, Django 5.1, DRF, PostgreSQL 16, Celery, Redis, Stripe, Tailwind CSS | **Live in Production** | **[🌐 Official Web App](https://agileplatform-snowy.vercel.app/)** \| [📖 Documentation](./FS-04/README.md) |
-| **EduFlow Live** *(Enterprise Real-time LMS)* | [`FS-03`](./FS-03/) | React 18, Node.js, Express, MongoDB, WebRTC, FFmpeg HLS, BullMQ, Redis, PDFKit | **Production Ready** | [📖 FS-03 Documentation](./FS-03/README.md) |
+| **AgilePlatform** | [`FS-04`](./FS-04/) | Multi-Tenant SaaS PM & Jira Suite | **[https://agileplatform-snowy.vercel.app/](https://agileplatform-snowy.vercel.app/)** | [📖 FS-04 Documentation](./FS-04/README.md) |
+| **EduFlow Academy** | [`FS-03`](./FS-03/) | Enterprise Real-Time LMS | **[https://eduflowacademy.vercel.app/](https://eduflowacademy.vercel.app/)** | [📖 FS-03 Documentation](./FS-03/README.md) |
 
 ---
 
@@ -26,7 +29,7 @@ fullstack-internship-projects/
 ├── .gitignore                      # Global gitignore protecting all subdirectories
 ├── README.md                       # Monorepo architecture & multi-project deployment guide
 │
-├── FS-03/                          # EduFlow Live (Enterprise Learning Management System)
+├── FS-03/                          # EduFlow Academy (Enterprise Learning Management System)
 │   ├── client/                     # React 18 + Vite + Tailwind CSS + Redux Toolkit
 │   ├── server/                     # Node.js + Express + MongoDB + Socket.IO + Redis
 │   ├── api/                        # Vercel Serverless Server entrypoint
@@ -56,25 +59,31 @@ fullstack-internship-projects/
 
 ---
 
-## 🌐 Official Live Application: FS-04 AgilePlatform
+## 🌟 Project Deep Dives
 
-### Overview
-AgilePlatform is an enterprise-grade agile project management system engineered to replicate and streamline core Jira & Linear functionality with multi-tenant cryptographic isolation.
+### 1. FS-04: AgilePlatform (Enterprise Multi-Tenant Jira Suite)
+- **Official Live Website**: **[https://agileplatform-snowy.vercel.app/](https://agileplatform-snowy.vercel.app/)**
+- **Core Stack**: React 18, Django 5.1, DRF, PostgreSQL 16, Celery, Redis, Stripe, Tailwind CSS
+- **Key Features**:
+  1. **Strict Multi-Tenant Isolation**: Tenant scoping enforced on all database queries and foreign keys.
+  2. **High-Speed Database Connection Pooling**: Persistent PostgreSQL connection pooling (`CONN_MAX_AGE = 600`) reducing query overhead to sub-150ms.
+  3. **Transactional Email & Instant Links**: Real-time Google SMTP transactional emails combined with 1-click fallback invitation link generation.
+  4. **Interactive Kanban & Sprints**: Fluid drag-and-drop workflow with configurable WIP limits, completion badges, and story-point burndown charts.
+  5. **Dual-Currency Billing**: Multi-tier Stripe subscription checkout with dynamic **USD ($) / INR (₹)** currency switching.
+- **Verified Evaluator Access**:
+  - **Email**: `thomas@mycompany.io`
+  - **Password**: `Password123!`
+  - **Workspace**: `Thomas Global Technologies` (Role: `Owner`)
+  - *Or register your own new organization instantly via [https://agileplatform-snowy.vercel.app/register](https://agileplatform-snowy.vercel.app/register).*
 
-- **Official Web Application**: **[https://agileplatform-snowy.vercel.app/](https://agileplatform-snowy.vercel.app/)**
-
-### Core Highlights:
-1. **Clean Real-User Ecosystem**: Zero boilerplate dummy data. Ready for authentic organization registration, workspace provisioning, and team collaboration.
-2. **High-Speed Database Connection Pooling**: Persistent PostgreSQL pooling (`CONN_MAX_AGE = 600`) reducing query overhead to sub-150ms.
-3. **Transactional Email & Instant Links**: Real-time Google SMTP transactional emails combined with 1-click fallback invitation link generation.
-4. **Interactive Kanban & Sprints**: Fluid drag-and-drop workflow with configurable WIP limits, completion badges, and story-point burndown charts.
-5. **Dual-Currency Billing**: Multi-tier Stripe subscription checkout with dynamic **USD ($) / INR (₹)** currency switching.
-
-### Verified Evaluator Access:
-- **Email**: `thomas@mycompany.io`
-- **Password**: `Password123!`
-- **Workspace**: `Thomas Global Technologies` (Role: `Owner`)
-- *Or register your own new organization instantly via [https://agileplatform-snowy.vercel.app/register](https://agileplatform-snowy.vercel.app/register).*
+### 2. FS-03: EduFlow Academy (Full-Stack Real-Time LMS)
+- **Official Live Website**: **[https://eduflowacademy.vercel.app/](https://eduflowacademy.vercel.app/)**
+- **Core Stack**: React 18, Vite, Redux Toolkit, Node.js, Express, MongoDB Atlas, Socket.IO, WebRTC, Tailwind CSS
+- **Key Features**:
+  1. **Interactive Virtual Classroom**: Low-latency 2-way WebRTC video/audio peer connections with SDP signaling over Socket.IO and live screen sharing.
+  2. **Adaptive Video Learning & Quizzes**: Module-by-module progress tracking, playback speed controls, and auto-graded assessments with instant explanations.
+  3. **Cryptographic Certificate Verification**: Programmatically generated PDFKit completion certificates stamped with SHA-256 HMAC digital signatures and scannable QR verification codes.
+  4. **Instructor Studio & Monetization**: Dedicated educator dashboard with revenue analytics, course upload pipelines, and withdrawal disbursement management.
 
 ---
 
@@ -123,7 +132,7 @@ Each project is completely decoupled. Deploy each service independently followin
 
 ---
 
-### 2. Deploying FS-03 (EduFlow Live LMS)
+### 2. Deploying FS-03 (EduFlow Academy LMS)
 
 #### A. Frontend & Serverless on Vercel:
 1. In Vercel Dashboard $\rightarrow$ **Add New Project**.
@@ -147,7 +156,7 @@ Each project is completely decoupled. Deploy each service independently followin
 ## 🔒 Security & Code Quality Standards
 
 1. **Zero Secret Leakage**: All `.env` files containing live credentials or API tokens are strictly gitignored. Only sanitized `.env.example` templates are tracked.
-2. **Cryptographic Multi-Tenancy**: Every request is bounded to the authenticated user's workspace scope, preventing horizontal privilege escalation.
+2. **Cryptographic Multi-Tenancy & Integrity**: Tenant isolation in FS-04 and SHA-256 HMAC certificate validation in FS-03.
 3. **Stateless JWT Claims**: Fast, tamper-evident user session authorization.
 4. **Persistent Connection Pooling**: Low-latency database connection reuse with automated connection recycling.
 5. **Isolated Directories**: Zero cross-contamination between micro-projects in the repository.
@@ -165,7 +174,7 @@ docker compose up -d --build
 - Backend API & Docs: [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/)
 - PostgreSQL Adminer: [http://localhost:8080](http://localhost:8080)
 
-### Run FS-03 (EduFlow Live)
+### Run FS-03 (EduFlow Academy)
 ```bash
 cd FS-03
 npm run install:all
