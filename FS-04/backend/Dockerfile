@@ -24,5 +24,5 @@ COPY . /app/
 # Expose port
 EXPOSE 8000
 
-# Default entrypoint runs migrations and starts Gunicorn/runserver
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+# Default entrypoint runs migrations, static collect, seeds demo data, and starts Gunicorn
+CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py seed_jira_data && gunicorn core.wsgi:application --bind 0.0.0.0:${PORT:-8000}"]
