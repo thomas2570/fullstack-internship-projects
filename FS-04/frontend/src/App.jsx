@@ -38,11 +38,17 @@ function MainApp() {
   const [showCreateWorkspace, setShowCreateWorkspace] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  // Check if opening invitation URL
+  // Check if opening invitation URL (supports both /invite/<token> and /accept-invite/?token=<token>)
   const path = window.location.pathname;
+  const searchParams = new URLSearchParams(window.location.search);
+  const tokenFromQuery = searchParams.get('token');
+
   if (path.startsWith('/invite/')) {
     const inviteToken = path.split('/invite/')[1]?.replace('/', '');
     return <AcceptInvitePage token={inviteToken} onAccepted={() => window.location.href = '/'} />;
+  }
+  if (path.startsWith('/accept-invite') && tokenFromQuery) {
+    return <AcceptInvitePage token={tokenFromQuery} onAccepted={() => window.location.href = '/'} />;
   }
 
   if (loading) {

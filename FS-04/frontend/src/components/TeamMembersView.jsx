@@ -25,6 +25,8 @@ export default function TeamMembersView() {
   const [inviteRole, setInviteRole] = useState('member');
   const [sendingInvite, setSendingInvite] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
+  const [copiedId, setCopiedId] = useState(null);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
     if (currentWorkspace) {
@@ -55,14 +57,18 @@ export default function TeamMembersView() {
     setSendingInvite(true);
     setStatusMessage(null);
     try {
-      await client.post('/api/workspaces/invite/', {
+      const res = await client.post('/api/workspaces/invite/', {
         email: inviteEmail.trim(),
         role: inviteRole,
       });
 
+      const inviteUrl = res.data?.invite_url || `${window.location.origin}/invite/${res.data?.token}`;
       setStatusMessage({
         type: 'success',
-        text: `Invitation email sent successfully to ${inviteEmail}!`,
+        text: res.data?.email_sent
+          ? `Invitation sent via email to ${inviteEmail}!`
+          : `Invitation created for ${inviteEmail}! You can copy and share the link below:`,
+        inviteUrl: inviteUrl,
       });
       setShowInviteModal(false);
       setInviteEmail('');
@@ -129,21 +135,45 @@ export default function TeamMembersView() {
       {/* Success / Error Notification */}
       {statusMessage && (
         <div
-          className={`p-3.5 rounded-xl border text-xs flex items-center justify-between animate-in fade-in ${
+          className={`p-3.5 rounded-xl border text-xs animate-in fade-in space-y-2.5 ${
             statusMessage.type === 'success'
               ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
               : 'bg-rose-50 border-rose-200 text-rose-800'
           }`}
         >
-          <div className="flex items-center space-x-2 font-semibold">
-            {statusMessage.type === 'success' ? (
-              <Check className="w-4 h-4 shrink-0 text-emerald-600" />
-            ) : (
-              <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
-            )}
-            <span>{statusMessage.text}</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 font-semibold">
+              {statusMessage.type === 'success' ? (
+                <Check className="w-4 h-4 shrink-0 text-emerald-600" />
+              ) : (
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+              )}
+              <span>{statusMessage.text}</span>
+            </div>
+            <button onClick={() => setStatusMessage(null)} className="text-xs font-bold ml-2 cursor-pointer">✕</button>
           </div>
-          <button onClick={() => setStatusMessage(null)} className="text-xs font-bold ml-2">✕</button>
+
+          {statusMessage.inviteUrl && (
+            <div className="flex items-center space-x-2 bg-white/90 p-2 rounded-lg border border-emerald-300 shadow-2xs">
+              <input
+                readOnly
+                value={statusMessage.inviteUrl}
+                className="flex-1 bg-transparent text-[11px] font-mono text-slate-700 outline-none select-all"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(statusMessage.inviteUrl);
+                  setCopiedLink(true);
+                  setTimeout(() => setCopiedLink(false), 2000);
+                }}
+                className="px-2.5 py-1 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-md flex items-center space-x-1 shrink-0 transition-colors cursor-pointer"
+              >
+                {copiedLink ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedLink ? 'Copied!' : 'Copy Link'}</span>
+              </button>
+            </div>
+          )}
         </div>
       )}
 
@@ -224,8 +254,31 @@ export default function TeamMembersView() {
                 <div className="flex items-center space-x-2">
                   <button
                     type="button"
+                    onClick={() => {
+                      const link = inv.invite_url || `${window.location.origin}/invite/${inv.token}`;
+                      navigator.clipboard.writeText(link);
+                      setCopiedId(inv.id);
+                      setTimeout(() => setCopiedId(null), 2000);
+                    }}
+                    className="flex items-center space-x-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors cursor-pointer"
+                    title="Copy invitation link"
+                  >
+                    {copiedId === inv.id ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700 font-bold">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Copy Link</span>
+                      </>
+                    )}
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => handleRevokeInvitation(inv.id)}
-                    className="p-1.5 rounded-lg hover:bg-rose-100 text-rose-600 transition-colors"
+                    className="p-1.5 rounded-lg hover:bg-rose-100 text-rose-600 transition-colors cursor-pointer"
                     title="Cancel invitation"
                   >
                     <Trash2 className="w-4 h-4" />

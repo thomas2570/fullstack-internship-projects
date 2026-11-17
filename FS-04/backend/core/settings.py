@@ -64,6 +64,7 @@ AUTH_USER_MODEL = 'authentication.User'
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -113,6 +114,8 @@ if DATABASE_URL:
             'PASSWORD': os.getenv('DB_PASSWORD') or urllib.parse.unquote(parsed_db.password or ''),
             'HOST': os.getenv('DB_HOST') or parsed_db.hostname or 'localhost',
             'PORT': os.getenv('DB_PORT') or parsed_db.port or '5432',
+            'CONN_MAX_AGE': 600,
+            'CONN_HEALTH_CHECKS': True,
         }
     }
 elif DB_ENGINE == 'postgres':
@@ -124,6 +127,8 @@ elif DB_ENGINE == 'postgres':
             'PASSWORD': os.getenv('DB_PASSWORD', 'postgres'),
             'HOST': os.getenv('DB_HOST', 'localhost'),
             'PORT': os.getenv('DB_PORT', '5432'),
+            'CONN_MAX_AGE': 600,
+            'CONN_HEALTH_CHECKS': True,
         }
     }
 else:
@@ -228,7 +233,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'pk_test_sample_key_pm_saas')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'sk_test_sample_key_pm_saas')
 STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', 'whsec_sample_secret_pm_saas')
-FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://agileplatform-snowy.vercel.app').rstrip('/')
 
 # Email Configuration (Supports both Real SMTP and Console fallback)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')

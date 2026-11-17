@@ -37,7 +37,6 @@ export default function KanbanBoard({ onSelectIssue, onOpenCreateIssue }) {
   useEffect(() => {
     if (currentProject) {
       fetchBoardAndIssues();
-      fetchTeamMembers();
     }
   }, [currentProject]);
 
@@ -45,20 +44,24 @@ export default function KanbanBoard({ onSelectIssue, onOpenCreateIssue }) {
     setLoading(true);
     setErrorMessage(null);
     try {
-      const boardRes = await client.get(`/api/boards/?project_id=${currentProject.id}`);
+      // Parallelize board, issues, and team members fetch for ultra-fast loading
+      const [boardRes, issuesRes, membersRes] = await Promise.all([
+        client.get(`/api/boards/?project_id=${currentProject.id}`),
+        client.get(`/api/issues/?project_id=${currentProject.id}`),
+        client.get('/api/workspaces/members/').catch(() => ({ data: [] })),
+      ]);
+
       const boardList = boardRes.data.results || boardRes.data || [];
       const activeBoard = boardList[0];
 
       if (activeBoard) {
         setBoard(activeBoard);
-        const cols = activeBoard.columns || [];
-        setColumns(cols);
-
-        const issuesRes = await client.get(`/api/issues/?project_id=${currentProject.id}`);
-        setIssues(issuesRes.data.results || issuesRes.data || []);
+        setColumns(activeBoard.columns || []);
       }
+      setIssues(issuesRes.data.results || issuesRes.data || []);
+      setTeamMembers(membersRes.data.results || membersRes.data || []);
     } catch (err) {
-      console.error('Error fetching board:', err);
+      console.error('Error fetching board data:', err);
       setErrorMessage('Failed to load project board.');
     } finally {
       setLoading(false);
