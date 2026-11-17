@@ -108,11 +108,11 @@ if DATABASE_URL:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': urllib.parse.unquote(parsed_db.path.lstrip('/')),
-            'USER': urllib.parse.unquote(parsed_db.username or os.getenv('DB_USER', 'postgres')),
-            'PASSWORD': urllib.parse.unquote(parsed_db.password or os.getenv('DB_PASSWORD', '')),
-            'HOST': parsed_db.hostname or os.getenv('DB_HOST', 'localhost'),
-            'PORT': parsed_db.port or os.getenv('DB_PORT', '5432'),
+            'NAME': os.getenv('DB_NAME') or urllib.parse.unquote(parsed_db.path.lstrip('/')),
+            'USER': os.getenv('DB_USER') or urllib.parse.unquote(parsed_db.username or 'postgres'),
+            'PASSWORD': os.getenv('DB_PASSWORD') or urllib.parse.unquote(parsed_db.password or ''),
+            'HOST': os.getenv('DB_HOST') or parsed_db.hostname or 'localhost',
+            'PORT': os.getenv('DB_PORT') or parsed_db.port or '5432',
         }
     }
 elif DB_ENGINE == 'postgres':
