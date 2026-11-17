@@ -1,7 +1,6 @@
 # FS-04: AgilePlatform — Multi-Tenant SaaS Project Management Platform (Enterprise Jira Suite)
 
-[![Live App](https://img.shields.io/badge/Production%20App-agileplatform--snowy.vercel.app-brightgreen?style=for-the-badge&logo=vercel)](https://agileplatform-snowy.vercel.app/)
-[![API Docs](https://img.shields.io/badge/Swagger%20Docs-OpenAPI%203.0-blue?style=for-the-badge&logo=swagger)](https://agileplatform-backend.onrender.com/api/docs/)
+[![Official Website](https://img.shields.io/badge/Official%20App-agileplatform--snowy.vercel.app-brightgreen?style=for-the-badge&logo=vercel)](https://agileplatform-snowy.vercel.app/)
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-5.1-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -13,15 +12,13 @@ An enterprise-grade, multi-tenant agile project management and issue-tracking pl
 
 ---
 
-## 🌐 Live Production Deployments
+## 🌐 Official Web Application
 
-| Component | Provider | Live URL | Description |
-|---|---|---|---|
-| **Web Frontend** | **Vercel** | [https://agileplatform-snowy.vercel.app/](https://agileplatform-snowy.vercel.app/) | Production Single-Page Application (React 18 + Vite) |
-| **Backend REST API** | **Render** | [https://agileplatform-backend.onrender.com/](https://agileplatform-backend.onrender.com/) | Production API Service (Django 5.1 + Gunicorn) |
-| **API Documentation** | **Render** | [https://agileplatform-backend.onrender.com/api/docs/](https://agileplatform-backend.onrender.com/api/docs/) | Interactive Swagger / OpenAPI 3.0 UI |
-| **OpenAPI Schema** | **Render** | [https://agileplatform-backend.onrender.com/api/schema/](https://agileplatform-backend.onrender.com/api/schema/) | Machine-readable OpenAPI 3.0 YAML/JSON specification |
-| **Database** | **Render** | `agileplatform-db` (Frankfurt Region) | Managed PostgreSQL 16 with persistent connection pooling |
+The live production application is deployed and accessible at the official URL below:
+
+| Application | Official Live URL | Description |
+|---|---|---|
+| **AgilePlatform SaaS** | **[https://agileplatform-snowy.vercel.app/](https://agileplatform-snowy.vercel.app/)** | Production Multi-Tenant Agile & Jira Platform |
 
 ---
 
@@ -85,7 +82,7 @@ An enterprise-grade, multi-tenant agile project management and issue-tracking pl
 | **GZip Payload Compression** | Django Middleware | Compresses large JSON responses (board backlogs, audit logs) by up to **75%**, dramatically speeding up low-bandwidth mobile networks. |
 | **Parallel Frontend Queries** | React (`Promise.all`) | Fetches user profile, workspaces, board statuses, and project tickets concurrently, eliminating sequential network waterflows. |
 | **Database Indexing** | PostgreSQL Foreign Keys | Composite indexes on `(workspace_id, project_id, status)` ensure sub-millisecond query execution even with tens of thousands of issues. |
-| **Stateless JWT Claims** | Auth0 / SimpleJWT | Workspace memberships and user roles are embedded directly into token claims, minimizing database roundtrips on authorized calls. |
+| **Stateless JWT Claims** | SimpleJWT | Workspace memberships and user roles are embedded directly into token claims, minimizing database roundtrips on authorized calls. |
 
 ---
 
@@ -134,7 +131,7 @@ For evaluator and reviewer testing, an active production owner account is availa
 │        DATA TIER            ││        BACKGROUND TIER       │
 │  PostgreSQL 16 Relational   ││  Celery 5.4 Async Workers    │
 │  Tenant Scoped Schemas      ││  Redis 7 Message Broker      │
-│  Managed on Render          ││  Outbound HMAC Webhooks      │
+│  Managed PostgreSQL DB      ││  Outbound HMAC Webhooks      │
 └─────────────────────────────┘└──────────────────────────────┘
 ```
 
@@ -164,7 +161,7 @@ FS-04/
 │   │   ├── projects/               # Projects, boards, columns, custom workflows
 │   │   ├── issues/                 # Issues, comments, attachments, activity history
 │   │   ├── sprints/                # Sprint planning, active cycles, burndown metrics
-│   │   ├── audit_logs/             # Immutable audit trails & compliance logs
+│   │   ├── audit/                  # Immutable audit trails & compliance logs
 │   │   ├── webhooks/               # Outbound HMAC-SHA256 webhooks & delivery logs
 │   │   └── billing/                # Stripe subscriptions, plans, checkout sessions
 │   ├── core/                       # Django settings, URLs, WSGI, Celery configuration
@@ -180,7 +177,7 @@ FS-04/
 │
 ├── docker-compose.yml              # 6-service local production stack
 ├── vercel.json                     # Vercel deployment configuration
-├── render.yaml                     # Render 1-click Infrastructure-as-Code blueprint
+├── render.yaml                     # Render Infrastructure-as-Code blueprint
 ├── start.bat                       # 1-Click launcher (Windows CMD)
 ├── start.ps1                       # 1-Click launcher (Windows PowerShell)
 ├── .env.example                    # Backend environment variable template
@@ -190,8 +187,6 @@ FS-04/
 ---
 
 ## 🔌 API Endpoints Reference
-
-All API endpoints are documented with live interactive execution at **`/api/docs/`**.
 
 | Area | HTTP Method | Endpoint | Description |
 |---|---|---|---|
@@ -239,7 +234,7 @@ The frontend is deployed on **Vercel** as a high-speed Single-Page Application:
    - **Install Command**: `npm install`
 5. Under **Environment Variables**, add:
    ```env
-   VITE_API_URL=https://agileplatform-backend.onrender.com
+   VITE_API_URL=https://<your-backend-api-url>
    ```
 6. Click **Deploy**. Vercel will build and publish your frontend to a global edge CDN.
 
@@ -251,8 +246,8 @@ The backend runs on **Render** with a managed PostgreSQL database:
 
 #### Step A: Provision Managed PostgreSQL
 1. On [Render Dashboard](https://dashboard.render.com), click **New +** $\rightarrow$ **PostgreSQL**.
-2. Name: `agileplatform-db`, Region: `Frankfurt (EU Central)`.
-3. Copy the **Internal Database URL** (e.g. `postgresql://postgress:...@dpg-...-a/saas_pm_db`).
+2. Provide a database name and select your preferred region.
+3. Copy the **Internal Database URL**.
 
 #### Step B: Provision Django Web Service
 1. Click **New +** $\rightarrow$ **Web Service**.
@@ -273,13 +268,13 @@ The backend runs on **Render** with a managed PostgreSQL database:
    - `DEBUG`: `False`
    - `SECRET_KEY`: `<your-secure-secret-key>`
    - `ALLOWED_HOSTS`: `*`
-   - `DATABASE_URL`: `<Your Render Internal Database URL>`
+   - `DATABASE_URL`: `<your-postgresql-database-url>`
    - `CORS_ALLOWED_ORIGINS`: `https://agileplatform-snowy.vercel.app`
    - `EMAIL_HOST`: `smtp.gmail.com`
    - `EMAIL_PORT`: `587`
    - `EMAIL_USE_TLS`: `True`
-   - `EMAIL_HOST_USER`: `ankitkkumarp106@gmail.com`
-   - `EMAIL_HOST_PASSWORD`: `<your-app-password>`
+   - `EMAIL_HOST_USER`: `<your-smtp-email>`
+   - `EMAIL_HOST_PASSWORD`: `<your-smtp-app-password>`
 5. Click **Deploy Web Service**.
 
 ---

@@ -1,8 +1,7 @@
 # 🚀 Fullstack Internship Projects Monorepo
 
 [![Monorepo](https://img.shields.io/badge/Monorepo-FS--03%20%7C%20FS--04-blue.svg?style=for-the-badge)](https://github.com/thomas2570/fullstack-internship-projects)
-[![Live FS-04 App](https://img.shields.io/badge/FS--04%20Live-AgilePlatform-brightgreen?style=for-the-badge&logo=vercel)](https://agileplatform-snowy.vercel.app/)
-[![FS-04 Swagger](https://img.shields.io/badge/FS--04%20API-Swagger%20Docs-092E20?style=for-the-badge&logo=swagger)](https://agileplatform-backend.onrender.com/api/docs/)
+[![Live FS-04 App](https://img.shields.io/badge/Official%20App-agileplatform--snowy.vercel.app-brightgreen?style=for-the-badge&logo=vercel)](https://agileplatform-snowy.vercel.app/)
 [![Architecture](https://img.shields.io/badge/Architecture-Modular%20Micro--Monorepo-orange?style=for-the-badge)](./FS-04/docs/ARCHITECTURE.md)
 
 Welcome to the **Fullstack Internship Projects** monorepo maintained by **Thomas Ramesh** ([@thomas2570](https://github.com/thomas2570)). This repository houses independent, enterprise-grade fullstack systems organized into strictly isolated subdirectories.
@@ -13,9 +12,9 @@ Each project is designed to be **completely modular, self-contained, and indepen
 
 ## 🌟 Projects Showcase
 
-| Project | Subdirectory | Tech Stack | Production Status | Live Demo / Docs |
+| Project | Subdirectory | Tech Stack | Production Status | Official Live Website |
 |---|---|---|---|---|
-| **AgilePlatform** *(Multi-Tenant SaaS PM Platform & Jira Suite)* | [`FS-04`](./FS-04/) | React 18, Django 5.1, DRF, PostgreSQL 16, Celery, Redis, Stripe, Tailwind CSS | **Live in Production** | [🌐 Live App](https://agileplatform-snowy.vercel.app/) \| [📑 Swagger API](https://agileplatform-backend.onrender.com/api/docs/) \| [📖 README](./FS-04/README.md) |
+| **AgilePlatform** *(Multi-Tenant SaaS PM Platform & Jira Suite)* | [`FS-04`](./FS-04/) | React 18, Django 5.1, DRF, PostgreSQL 16, Celery, Redis, Stripe, Tailwind CSS | **Live in Production** | **[🌐 Official Web App](https://agileplatform-snowy.vercel.app/)** \| [📖 Documentation](./FS-04/README.md) |
 | **EduFlow Live** *(Enterprise Real-time LMS)* | [`FS-03`](./FS-03/) | React 18, Node.js, Express, MongoDB, WebRTC, FFmpeg HLS, BullMQ, Redis, PDFKit | **Production Ready** | [📖 FS-03 Documentation](./FS-03/README.md) |
 
 ---
@@ -49,7 +48,7 @@ fullstack-internship-projects/
     ├── docker-compose.yml          # Production 6-service local stack
     ├── package.json                # Monorepo helper build scripts
     ├── vercel.json                 # Vercel deployment configuration
-    ├── render.yaml                 # 1-Click Render Infrastructure Blueprint
+    ├── render.yaml                 # Render Infrastructure Blueprint
     ├── README.md                   # Complete Jira-clone documentation & setup
     ├── start.bat                   # 1-Click Docker launcher (Windows CMD)
     └── start.ps1                   # 1-Click Docker launcher (Windows PowerShell)
@@ -57,20 +56,17 @@ fullstack-internship-projects/
 
 ---
 
-## 🌐 Live Production Deployments: FS-04 AgilePlatform
+## 🌐 Official Live Application: FS-04 AgilePlatform
 
 ### Overview
 AgilePlatform is an enterprise-grade agile project management system engineered to replicate and streamline core Jira & Linear functionality with multi-tenant cryptographic isolation.
 
-- **Frontend App**: [https://agileplatform-snowy.vercel.app/](https://agileplatform-snowy.vercel.app/)
-- **Backend API**: [https://agileplatform-backend.onrender.com/](https://agileplatform-backend.onrender.com/)
-- **Swagger / OpenAPI 3.0 Documentation**: [https://agileplatform-backend.onrender.com/api/docs/](https://agileplatform-backend.onrender.com/api/docs/)
-- **OpenAPI Schema (JSON/YAML)**: [https://agileplatform-backend.onrender.com/api/schema/](https://agileplatform-backend.onrender.com/api/schema/)
+- **Official Web Application**: **[https://agileplatform-snowy.vercel.app/](https://agileplatform-snowy.vercel.app/)**
 
 ### Core Highlights:
 1. **Clean Real-User Ecosystem**: Zero boilerplate dummy data. Ready for authentic organization registration, workspace provisioning, and team collaboration.
 2. **High-Speed Database Connection Pooling**: Persistent PostgreSQL pooling (`CONN_MAX_AGE = 600`) reducing query overhead to sub-150ms.
-3. **Transaction Email & Instant Links**: Real-time Google SMTP transactional emails combined with 1-click fallback invitation link generation.
+3. **Transactional Email & Instant Links**: Real-time Google SMTP transactional emails combined with 1-click fallback invitation link generation.
 4. **Interactive Kanban & Sprints**: Fluid drag-and-drop workflow with configurable WIP limits, completion badges, and story-point burndown charts.
 5. **Dual-Currency Billing**: Multi-tier Stripe subscription checkout with dynamic **USD ($) / INR (₹)** currency switching.
 
@@ -97,11 +93,11 @@ Each project is completely decoupled. Deploy each service independently followin
    ```
 4. Framework Preset: **Vite** (Build: `npm run build`, Output: `dist`).
 5. Environment Variable:
-   - `VITE_API_URL`: `https://agileplatform-backend.onrender.com`
+   - `VITE_API_URL`: `<your-backend-api-url>`
 6. Click **Deploy**.
 
 #### B. Backend & PostgreSQL on Render:
-1. In Render Dashboard, create a **PostgreSQL Database** (`agileplatform-db`, Frankfurt region).
+1. In Render Dashboard, create a **PostgreSQL Database**.
 2. Create a **Web Service** connected to `thomas2570/fullstack-internship-projects`.
 3. Settings:
    - **Root Directory**: `FS-04/backend`
@@ -114,16 +110,16 @@ Each project is completely decoupled. Deploy each service independently followin
      ```bash
      gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
      ```
-4. Environment Variables:
+4. Add Environment Variables:
    - `DEBUG`: `False`
    - `ALLOWED_HOSTS`: `*`
-   - `DATABASE_URL`: Connection string from your Render PostgreSQL instance
+   - `DATABASE_URL`: `<your-database-connection-url>`
    - `CORS_ALLOWED_ORIGINS`: `https://agileplatform-snowy.vercel.app`
    - `EMAIL_HOST`: `smtp.gmail.com`
    - `EMAIL_PORT`: `587`
    - `EMAIL_USE_TLS`: `True`
-   - `EMAIL_HOST_USER`: `ankitkkumarp106@gmail.com`
-   - `EMAIL_HOST_PASSWORD`: `<google-app-password>`
+   - `EMAIL_HOST_USER`: `<your-smtp-email>`
+   - `EMAIL_HOST_PASSWORD`: `<your-smtp-app-password>`
 
 ---
 
@@ -134,8 +130,8 @@ Each project is completely decoupled. Deploy each service independently followin
 2. Select repository: `thomas2570/fullstack-internship-projects`.
 3. Set **Root Directory** to: `FS-03`
 4. Set Environment Variables:
-   - `MONGO_URI`: MongoDB Atlas connection string
-   - `JWT_SECRET`: Secure cryptographic token secret
+   - `MONGO_URI`: `<your-mongodb-atlas-uri>`
+   - `JWT_SECRET`: `<your-jwt-secret>`
    - `NODE_ENV`: `production`
 5. Click **Deploy**.
 
