@@ -1,8 +1,22 @@
 # 🚀 Fullstack Internship Projects Monorepo
 
-Welcome to the **Fullstack Internship Projects** monorepo. This repository houses independent, production-grade fullstack projects organized into isolated subdirectories.
+[![Monorepo](https://img.shields.io/badge/Monorepo-FS--03%20%7C%20FS--04-blue.svg?style=for-the-badge)](https://github.com/thomas2570/fullstack-internship-projects)
+[![Live FS-04 App](https://img.shields.io/badge/FS--04%20Live-AgilePlatform-brightgreen?style=for-the-badge&logo=vercel)](https://agileplatform-snowy.vercel.app/)
+[![FS-04 Swagger](https://img.shields.io/badge/FS--04%20API-Swagger%20Docs-092E20?style=for-the-badge&logo=swagger)](https://agileplatform-backend.onrender.com/api/docs/)
+[![Architecture](https://img.shields.io/badge/Architecture-Modular%20Micro--Monorepo-orange?style=for-the-badge)](./FS-04/docs/ARCHITECTURE.md)
 
-Each project is designed to be **completely modular, self-contained, and independently deployable** to platforms like Vercel, Netlify, Render, Railway, AWS, and Docker without interfering with other projects.
+Welcome to the **Fullstack Internship Projects** monorepo maintained by **Thomas Ramesh** ([@thomas2570](https://github.com/thomas2570)). This repository houses independent, enterprise-grade fullstack systems organized into strictly isolated subdirectories.
+
+Each project is designed to be **completely modular, self-contained, and independently deployable** to modern cloud platforms (Vercel, Render, Railway, Docker) with zero cross-project dependency conflicts.
+
+---
+
+## 🌟 Projects Showcase
+
+| Project | Subdirectory | Tech Stack | Production Status | Live Demo / Docs |
+|---|---|---|---|---|
+| **AgilePlatform** *(Multi-Tenant SaaS PM Platform & Jira Suite)* | [`FS-04`](./FS-04/) | React 18, Django 5.1, DRF, PostgreSQL 16, Celery, Redis, Stripe, Tailwind CSS | **Live in Production** | [🌐 Live App](https://agileplatform-snowy.vercel.app/) \| [📑 Swagger API](https://agileplatform-backend.onrender.com/api/docs/) \| [📖 README](./FS-04/README.md) |
+| **EduFlow Live** *(Enterprise Real-time LMS)* | [`FS-03`](./FS-03/) | React 18, Node.js, Express, MongoDB, WebRTC, FFmpeg HLS, BullMQ, Redis, PDFKit | **Production Ready** | [📖 FS-03 Documentation](./FS-03/README.md) |
 
 ---
 
@@ -13,7 +27,7 @@ fullstack-internship-projects/
 ├── .gitignore                      # Global gitignore protecting all subdirectories
 ├── README.md                       # Monorepo architecture & multi-project deployment guide
 │
-├── FS-03/                          # EduFlow Live LMS (Enterprise Learning Management System)
+├── FS-03/                          # EduFlow Live (Enterprise Learning Management System)
 │   ├── client/                     # React 18 + Vite + Tailwind CSS + Redux Toolkit
 │   ├── server/                     # Node.js + Express + MongoDB + Socket.IO + Redis
 │   ├── api/                        # Vercel Serverless Server entrypoint
@@ -25,13 +39,17 @@ fullstack-internship-projects/
 │   └── start.ps1                   # 1-Click launcher (Windows PowerShell)
 │
 └── FS-04/                          # AgilePlatform (Multi-Tenant SaaS Project Management Platform)
-    ├── frontend/                   # React 18 + Vite + Tailwind CSS + Lucide Icons
-    ├── backend/                    # Django 5.1 + DRF + Celery + PostgreSQL + Redis
-    ├── docs/                       # Architecture, API docs, presentation & reflection
-    ├── docker-compose.yml          # Production 6-service Docker stack
-    ├── package.json                # Monorepo build and test scripts
-    ├── vercel.json                 # Unified Vercel rewrite configuration
-    ├── render.yaml                 # 1-Click Render Blueprint
+    ├── frontend/                   # React 18 + Vite + Tailwind CSS SPA
+    ├── backend/                    # Django 5.1 + DRF + Celery + PostgreSQL 16
+    ├── docs/                       # Architecture, API docs, reflection & presentation
+    │   ├── ARCHITECTURE.md         # Cryptographic multi-tenancy & ER diagrams
+    │   ├── API_DOCUMENTATION.md    # REST API specification & schemas
+    │   ├── INTERN_REFLECTION.md    # Technical learnings & performance optimizations
+    │   └── PRESENTATION_OUTLINE.md # Stakeholder walkthrough & live demo script
+    ├── docker-compose.yml          # Production 6-service local stack
+    ├── package.json                # Monorepo helper build scripts
+    ├── vercel.json                 # Vercel deployment configuration
+    ├── render.yaml                 # 1-Click Render Infrastructure Blueprint
     ├── README.md                   # Complete Jira-clone documentation & setup
     ├── start.bat                   # 1-Click Docker launcher (Windows CMD)
     └── start.ps1                   # 1-Click Docker launcher (Windows PowerShell)
@@ -39,139 +57,131 @@ fullstack-internship-projects/
 
 ---
 
-## 🌟 Projects Overview
+## 🌐 Live Production Deployments: FS-04 AgilePlatform
 
-| Subdirectory | Project Name | Tech Stack | Status | Documentation |
-| :--- | :--- | :--- | :--- | :--- |
-| **`FS-03`** | **EduFlow Live — Enterprise LMS** | React 18, Node.js, Express, MongoDB, WebRTC, FFmpeg HLS, BullMQ, Redis, PDFKit | **Production Ready** | [FS-03 README](./FS-03/README.md) |
-| **`FS-04`** | **AgilePlatform — Multi-Tenant SaaS PM Platform** | React 18, Django 5.1, DRF, PostgreSQL, Celery, Redis, Stripe, Tailwind CSS | **Production Ready** | [FS-04 README](./FS-04/README.md) |
+### Overview
+AgilePlatform is an enterprise-grade agile project management system engineered to replicate and streamline core Jira & Linear functionality with multi-tenant cryptographic isolation.
 
----
+- **Frontend App**: [https://agileplatform-snowy.vercel.app/](https://agileplatform-snowy.vercel.app/)
+- **Backend API**: [https://agileplatform-backend.onrender.com/](https://agileplatform-backend.onrender.com/)
+- **Swagger / OpenAPI 3.0 Documentation**: [https://agileplatform-backend.onrender.com/api/docs/](https://agileplatform-backend.onrender.com/api/docs/)
+- **OpenAPI Schema (JSON/YAML)**: [https://agileplatform-backend.onrender.com/api/schema/](https://agileplatform-backend.onrender.com/api/schema/)
 
-## 🌐 Multi-Project Deployment Guide (Zero Conflict)
+### Core Highlights:
+1. **Clean Real-User Ecosystem**: Zero boilerplate dummy data. Ready for authentic organization registration, workspace provisioning, and team collaboration.
+2. **High-Speed Database Connection Pooling**: Persistent PostgreSQL pooling (`CONN_MAX_AGE = 600`) reducing query overhead to sub-150ms.
+3. **Transaction Email & Instant Links**: Real-time Google SMTP transactional emails combined with 1-click fallback invitation link generation.
+4. **Interactive Kanban & Sprints**: Fluid drag-and-drop workflow with configurable WIP limits, completion badges, and story-point burndown charts.
+5. **Dual-Currency Billing**: Multi-tier Stripe subscription checkout with dynamic **USD ($) / INR (₹)** currency switching.
 
-Har project alag subdirectory me hone ki wajah se aap **har project ko bina kisi conflict ke independent deploy** kar sakte hain. Neeche platform-wise setup diya gaya hai:
-
-### 1. Deploying on Vercel
-
-Vercel allows you to deploy multiple projects from the same GitHub repository simply by setting the **Root Directory**:
-
-#### Option A: Single-Domain Unified Deployment (Frontend + Serverless Backend)
-1. Go to [Vercel Dashboard](https://vercel.com/dashboard) -> **Add New Project**.
-2. Select repository `thomas2570/fullstack-internship-projects`.
-3. In **Root Directory**, click **Edit** and select:
-   ```
-   FS-03
-   ```
-4. Build and Output Settings:
-   - **Framework Preset**: Vite
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `client/dist`
-   - **Install Command**: `npm install`
-5. Under **Environment Variables**, add:
-   - `MONGO_URI`: Your MongoDB Atlas connection string
-   - `JWT_SECRET`: A secure random secret key
-   - `NODE_ENV`: `production`
-6. Click **Deploy**. Both the client and `/api` serverless backend will run smoothly on a single URL!
-
-#### Option B: Separate Frontend Deployment on Vercel
-1. In Vercel, set **Root Directory** to:
-   ```
-   FS-03/client
-   ```
-2. Set Environment Variable:
-   - `VITE_API_BASE_URL`: URL of your deployed backend (e.g., `https://eduflow-api.onrender.com`)
-3. Click **Deploy**.
+### Verified Evaluator Access:
+- **Email**: `thomas@mycompany.io`
+- **Password**: `Password123!`
+- **Workspace**: `Thomas Global Technologies` (Role: `Owner`)
+- *Or register your own new organization instantly via [https://agileplatform-snowy.vercel.app/register](https://agileplatform-snowy.vercel.app/register).*
 
 ---
 
-### 2. Deploying FS-04 (Multi-Tenant SaaS PM Platform)
+## 🚀 Independent Cloud Deployment Guides
 
-#### Frontend on Vercel:
-1. In Vercel Dashboard $\rightarrow$ **Add New Project**.
+Each project is completely decoupled. Deploy each service independently following the steps below:
+
+### 1. Deploying FS-04 on Vercel & Render
+
+#### A. Frontend on Vercel:
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard) $\rightarrow$ **Add New Project**.
 2. Select repository: `thomas2570/fullstack-internship-projects`.
-3. Set **Root Directory** to:
+3. In **Root Directory**, set to:
    ```
    FS-04/frontend
    ```
-4. Framework: **Vite** (Build command: `npm run build`, Output directory: `dist`).
+4. Framework Preset: **Vite** (Build: `npm run build`, Output: `dist`).
 5. Environment Variable:
-   - `VITE_API_URL`: Your Render backend URL (e.g. `https://agileplatform-backend.onrender.com`)
+   - `VITE_API_URL`: `https://agileplatform-backend.onrender.com`
 6. Click **Deploy**.
 
-#### Backend on Render (Django + Celery + PostgreSQL + Redis):
-- **Option A (1-Click Blueprint)**: In Render Dashboard, click **New +** $\rightarrow$ **Blueprint**, connect `thomas2570/fullstack-internship-projects`. Render will automatically create the PostgreSQL DB, Redis, Django Web Service, and Celery Worker using `FS-04/render.yaml`.
-- **Option B (Manual Web Service)**:
-  1. Root Directory: `FS-04/backend`
-  2. Build Command: `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate && python manage.py seed_jira_data`
-  3. Start Command: `gunicorn core.wsgi:application --bind 0.0.0.0:$PORT`
-  4. Environment Variables: `DEBUG=False`, `ALLOWED_HOSTS=*`, `DATABASE_URL` (from Render PostgreSQL), `REDIS_URL` (from Render Redis).
+#### B. Backend & PostgreSQL on Render:
+1. In Render Dashboard, create a **PostgreSQL Database** (`agileplatform-db`, Frankfurt region).
+2. Create a **Web Service** connected to `thomas2570/fullstack-internship-projects`.
+3. Settings:
+   - **Root Directory**: `FS-04/backend`
+   - **Runtime**: Python 3
+   - **Build Command**:
+     ```bash
+     pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate && python manage.py seed_jira_data
+     ```
+   - **Start Command**:
+     ```bash
+     gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
+     ```
+4. Environment Variables:
+   - `DEBUG`: `False`
+   - `ALLOWED_HOSTS`: `*`
+   - `DATABASE_URL`: Connection string from your Render PostgreSQL instance
+   - `CORS_ALLOWED_ORIGINS`: `https://agileplatform-snowy.vercel.app`
+   - `EMAIL_HOST`: `smtp.gmail.com`
+   - `EMAIL_PORT`: `587`
+   - `EMAIL_USE_TLS`: `True`
+   - `EMAIL_HOST_USER`: `ankitkkumarp106@gmail.com`
+   - `EMAIL_HOST_PASSWORD`: `<google-app-password>`
 
 ---
 
-### 3. Deploying FS-03 Backend on Render / Railway
+### 2. Deploying FS-03 (EduFlow Live LMS)
 
-For persistent Node.js servers, WebSockets (`Socket.IO`), and background workers:
+#### A. Frontend & Serverless on Vercel:
+1. In Vercel Dashboard $\rightarrow$ **Add New Project**.
+2. Select repository: `thomas2570/fullstack-internship-projects`.
+3. Set **Root Directory** to: `FS-03`
+4. Set Environment Variables:
+   - `MONGO_URI`: MongoDB Atlas connection string
+   - `JWT_SECRET`: Secure cryptographic token secret
+   - `NODE_ENV`: `production`
+5. Click **Deploy**.
 
-1. Create a new **Web Service** on [Render](https://render.com) or [Railway](https://railway.app).
-2. Connect this repository: `thomas2570/fullstack-internship-projects`.
-3. Configure the **Root Directory**:
-   ```
-   FS-03/server
-   ```
-4. Build & Start Commands:
-   - **Build Command**: `npm install`
-   - **Start Command**: `node server.js`
-5. Configure Environment Variables (refer to `FS-03/server/.env.example`).
+#### B. Persistent Node.js Server on Render / Railway:
+1. Create a **Web Service** on Render or Railway.
+2. Set **Root Directory** to: `FS-03/server`
+3. Build Command: `npm install`
+4. Start Command: `node server.js`
+5. Set environment variables based on `FS-03/server/.env.example`.
 
 ---
 
-## 🔒 Security & Clean Code Standards
+## 🔒 Security & Code Quality Standards
 
-To keep the repository clean, professional, and secure for evaluators:
-1. **No Sensitive Data**: `.env` files containing live credentials, passwords, or tokens are **strictly gitignored**. Only `.env.example` templates are tracked.
-2. **No Build Artifacts**: `node_modules`, `dist/`, and `build/` folders are never committed.
-3. **No Junk / Temporary Uploads**: Test certificates (`*.pdf`) and large video dumps are excluded; folder structures are preserved with `.gitkeep`.
-4. **Self-Contained Subdirectories**: Each project (`FS-03`, `FS-04`) maintains its own independent `.env.example`, package definitions, and isolated deployment workflows.
+1. **Zero Secret Leakage**: All `.env` files containing live credentials or API tokens are strictly gitignored. Only sanitized `.env.example` templates are tracked.
+2. **Cryptographic Multi-Tenancy**: Every request is bounded to the authenticated user's workspace scope, preventing horizontal privilege escalation.
+3. **Stateless JWT Claims**: Fast, tamper-evident user session authorization.
+4. **Persistent Connection Pooling**: Low-latency database connection reuse with automated connection recycling.
+5. **Isolated Directories**: Zero cross-contamination between micro-projects in the repository.
 
 ---
 
 ## ⚡ Quick Start: Running Projects Locally
 
-### A. Running FS-03 (EduFlow Live LMS)
+### Run FS-04 (AgilePlatform) via Docker Compose
 ```bash
-# 1. Navigate to FS-03
-cd fullstack-internship-projects/FS-03
-
-# 2. Install dependencies (server + client)
-npm run install:all
-
-# 3. Setup environment variables
-cp server/.env.example server/.env
-# Edit server/.env with your MONGO_URI and JWT_SECRET
-
-# 4. Seed database with demo courses & admin account
-npm run seed
-
-# 5. Start both Backend & Frontend concurrently
-npm run dev
-```
-- **Frontend**: `http://localhost:5173`
-- **Backend API**: `http://localhost:5000`
-
-### B. Running FS-04 (AgilePlatform SaaS)
-```bash
-# 1. Navigate to FS-04
-cd fullstack-internship-projects/FS-04
-
-# 2. Start full 6-service Docker stack (PostgreSQL, Redis, Celery, Django, React)
+cd FS-04
 docker compose up -d --build
 ```
-- **Frontend App**: `http://localhost:3000`
-- **Backend API & Swagger**: `http://localhost:8000/api/docs/`
-- **Database Adminer**: `http://localhost:8080`
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend API & Docs: [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/)
+- PostgreSQL Adminer: [http://localhost:8080](http://localhost:8080)
+
+### Run FS-03 (EduFlow Live)
+```bash
+cd FS-03
+npm run install:all
+npm run seed
+npm run dev
+```
+- Frontend: [http://localhost:5173](http://localhost:5173)
+- Backend API: [http://localhost:5000](http://localhost:5000)
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Author & Maintainer
+
 - **Thomas Ramesh** ([@thomas2570](https://github.com/thomas2570))
+- Monorepo: [github.com/thomas2570/fullstack-internship-projects](https://github.com/thomas2570/fullstack-internship-projects)
